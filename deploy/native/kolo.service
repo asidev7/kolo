@@ -1,0 +1,28 @@
+# /etc/systemd/system/kolo.service — API KOLO (gunicorn derrière Nginx).
+[Unit]
+Description=KOLO — API Django (gunicorn)
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+User=kolo
+Group=kolo
+WorkingDirectory=/var/www/kolo
+EnvironmentFile=/var/www/kolo/.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/var/www/kolo/venv/bin/gunicorn kolo.wsgi:application \
+    --workers 3 --bind 127.0.0.1:8110 --timeout 30 \
+    --max-requests 2000 --max-requests-jitter 200
+Restart=on-failure
+RestartSec=5s
+
+# L'API ne touche au disque que dans son dossier : tout le reste est en lecture
+# seule pour ce service, ce qui limite la portée d'une éventuelle compromission.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/www/kolo
+
+[Install]
+WantedBy=multi-user.target

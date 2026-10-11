@@ -1,0 +1,45 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  # Le code généré (Drift, Riverpod) n'est pas relu à la main : l'exclure
+  # accélère l'analyse et évite du bruit qui masquerait de vrais avertissements.
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - web/**
+
+  language:
+    # Une conversion implicite ou un type brut passe inaperçu à la lecture :
+    # sur un socle financier, on préfère une erreur de compilation.
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+
+linter:
+  rules:
+    # Sécurité et correction
+    always_declare_return_types: true
+    avoid_dynamic_calls: true
+    avoid_slow_async_io: true
+    cancel_subscriptions: true
+    close_sinks: true
+    only_throw_errors: true
+    throw_in_finally: true
+    unawaited_futures: true
+
+    # Lisibilité
+    directives_ordering: true
+    prefer_final_locals: true
+    prefer_single_quotes: true
+    require_trailing_commas: true
+    sort_child_properties_last: true
+    use_super_parameters: true
+
+    # À éviter explicitement
+    avoid_print: true
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    unnecessary_lambdas: true

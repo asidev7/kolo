@@ -1,0 +1,13 @@
+targets:
+  $default:
+    builders:
+      drift_dev:
+        options:
+          # Horodatages stockés en texte ISO-8601 UTC : précision à la
+          # milliseconde et ordre lexicographique = ordre chronologique.
+          store_date_time_values_as_text: true
+          # Requis par `dart run drift_dev make-migrations` (§5.8).
+          databases:
+            kolo: lib/database/app_database.dart
+          schema_dir: drift_schemas/
+          test_dir: test/database/generated/

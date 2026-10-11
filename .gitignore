@@ -1,0 +1,84 @@
+# ---------------------------------------------------------------------------
+# Secrets — ne jamais versionner
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+key.properties
+google-services.json
+GoogleService-Info.plist
+
+# ---------------------------------------------------------------------------
+# Sorties de diagnostic JVM / natives
+# ---------------------------------------------------------------------------
+hs_err_pid*.log
+replay_pid*.log
+*.hprof
+
+# ---------------------------------------------------------------------------
+# Python / Django
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+db.sqlite3
+db.sqlite3-journal
+/media/
+/staticfiles/
+
+# ---------------------------------------------------------------------------
+# Flutter / Dart
+# ---------------------------------------------------------------------------
+mobile/.dart_tool/
+mobile/.packages
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/ios/Pods/
+mobile/ios/.symlinks/
+mobile/ios/Flutter/Flutter.framework
+mobile/ios/Flutter/Flutter.podspec
+mobile/ios/Flutter/ephemeral/
+mobile/android/.gradle/
+mobile/android/local.properties
+mobile/android/app/debug/
+mobile/android/app/profile/
+mobile/android/app/release/
+mobile/android/key.properties
+
+# Les fichiers générés restent versionnés (ils sont nécessaires au build
+# reproductible) — la ligne ci-dessous est donc volontairement absente :
+# *.g.dart / *.freezed.dart sont commités.
+
+# ---------------------------------------------------------------------------
+# Éditeurs et OS
+# ---------------------------------------------------------------------------
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+
+# ---------------------------------------------------------------------------
+# Journaux de build
+# ---------------------------------------------------------------------------
+/apk-build.log
+*.log

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- §8 : HTTPS obligatoire. Tout trafic en clair est refusé en release.
+     La variante debug (src/debug) autorise uniquement le serveur local de
+     développement. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

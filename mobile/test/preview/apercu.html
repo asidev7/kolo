@@ -1,0 +1,349 @@
+<title>Rendu KOLO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Plan de la planche : la palette et la police sont celles de l'app
+   (lib/app/theme/kolo_colors.dart, Inter embarquée dans l'app) ; le monospace
+   sert aux mesures et aux noms de fichiers. */
+:root {
+  --bg: #f7f9fc;
+  --surface: #ffffff;
+  --sunken: #eef2f9;
+  --ink: #111827;
+  --ink-soft: #64748b;
+  --line: #e2e8f0;
+  --accent: #1749c7;
+  --accent-soft: #eaf1ff;
+  --expense: #dc2626;
+  --income: #16a34a;
+  --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0b1220;
+    --surface: #141d30;
+    --sunken: #101827;
+    --ink: #e9eef8;
+    --ink-soft: #94a3b8;
+    --line: #26314b;
+    --accent: #8fb0ff;
+    --accent-soft: #1b2740;
+    --expense: #f87171;
+    --income: #4ade80;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #0b1220;
+  --surface: #141d30;
+  --sunken: #101827;
+  --ink: #e9eef8;
+  --ink-soft: #94a3b8;
+  --line: #26314b;
+  --accent: #8fb0ff;
+  --accent-soft: #1b2740;
+  --expense: #f87171;
+  --income: #4ade80;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-inline: 16px;
+}
+
+.page {
+  max-width: 940px;
+  margin-inline: auto;
+  padding-block: 32px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+header { display: flex; flex-direction: column; gap: 12px; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+h1 {
+  font-size: clamp(30px, 6vw, 42px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.lede {
+  font-size: 17px;
+  color: var(--ink-soft);
+  max-width: 62ch;
+  margin: 0;
+}
+
+.note {
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px;
+  font-size: 14.5px;
+  max-width: 72ch;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.note strong { font-weight: 600; }
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: var(--sunken);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+
+.measures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin: 0;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.measures div { display: flex; flex-direction: column; gap: 2px; }
+
+.measures dt {
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.measures dd {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+section { display: flex; flex-direction: column; gap: 16px; }
+
+h2 {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  text-wrap: balance;
+}
+
+h2 span {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+section p { margin: 0; max-width: 68ch; color: var(--ink-soft); }
+section p.tight { color: var(--ink); }
+
+.finding {
+  border-left: 3px solid var(--accent);
+  padding-left: 14px;
+  max-width: 68ch;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.finding .tag {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.shots {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+}
+
+figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+
+.phone {
+  aspect-ratio: 360 / 780;
+  max-width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.phone img { display: block; width: 100%; height: 100%; }
+
+figcaption { display: flex; flex-direction: column; gap: 4px; }
+
+figcaption .name {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+figcaption .what { font-size: 13.5px; max-width: 34ch; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+
+.swatch { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+
+footer {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 72ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+</style>
+
+<div class="page">
+  <header>
+    <p class="eyebrow">Vérification visuelle · 11 octobre 2026 · Flutter 3.47</p>
+    <h1>Rendu KOLO</h1>
+    <p class="lede">Six captures prises dans l'application réelle pour voir le flou de la barre d'onglets et les transitions de page, sans passer par un téléphone.</p>
+  </header>
+
+  <div class="note">
+    <p><strong>Comment lire ces images.</strong> Elles sortent du moteur de test de Flutter (<code>flutter test --update-goldens test/preview/apercu.dart</code>), pas d'un appareil. Ce moteur remplace la police par une police de test : <strong>tout le texte s'affiche en blocs pleins</strong>, et les pictogrammes Material en carrés vides. Tout le reste est bien le vrai rendu, calculé par Skia : couleurs, flou, image du logo, positions, tailles.</p>
+    <p>Elles ont été prises avec des données de démonstration saisies par le harnais de test, jamais des données de l'application.</p>
+  </div>
+
+  <div class="legend">
+    <span><i class="swatch" style="background:#111827"></i> un texte (titre, libellé)</span>
+    <span><i class="swatch" style="background:#991b1b"></i> un montant de dépense</span>
+    <span><i class="swatch" style="background:#1749c7"></i> élément bleu cobalt : action, catégorie</span>
+    <span><i class="swatch" style="background:#e2e8f0"></i> contour de carte</span>
+  </div>
+
+  <dl class="measures">
+    <div><dt>Voile de la barre</dt><dd>0,62</dd></div>
+    <div><dt>Flou</dt><dd>σ 16 px</dd></div>
+    <div><dt>Transition de page</dt><dd>220 ms</dd></div>
+    <div><dt>Entrée en cascade</dt><dd>420 ms</dd></div>
+    <div><dt>Décalage par bloc</dt><dd>0,07</dd></div>
+  </dl>
+
+  <section>
+    <h2>Barre d'onglets floutée <span>3 captures</span></h2>
+    <p class="tight">La barre laisse passer le contenu qui défile dessous : le voile était à 85 % d'opacité, ce qui la rendait blanche et opaque. À <strong>62 %</strong>, on voit encore les lignes passer sous le verre sans que les libellés d'onglets perdent en lisibilité. Un liseré de 0,5 px marque le haut de la barre.</p>
+    <div class="shots">
+      <figure>
+        <div class="phone"><img src="historique.png" alt="Historique des opérations : la barre d'onglets floutée laisse voir les lignes du dessous"></div>
+        <figcaption>
+          <span class="name">historique.png</span>
+          <span class="what">La plus parlante : l'en-tête de jour et les montants rouges continuent sous la barre, adoucis et rosés par le flou. Les libellés d'onglets restent nets.</span>
+        </figcaption>
+      </figure>
+      <figure>
+        <div class="phone"><img src="accueil.png" alt="Accueil : tableau de bord défilé jusqu'en bas, bouton d'ajout au-dessus de la barre"></div>
+        <figcaption>
+          <span class="name">accueil.png</span>
+          <span class="what">Accueil défilé jusqu'en bas. Le fond derrière la barre est blanc (des cartes), l'effet y est donc discret : c'est normal.</span>
+        </figcaption>
+      </figure>
+      <figure>
+        <div class="phone"><img src="accueil_systeme.png" alt="Accueil avec une barre système de 24 dp simulée en bas"></div>
+        <figcaption>
+          <span class="name">accueil_systeme.png</span>
+          <span class="what">Même écran avec une barre de gestes Android de 24 dp simulée : la dernière ligne reste au-dessus du flou, plus rien ne glisse dessous.</span>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="finding">
+      <span class="tag">Correction trouvée grâce à ces captures</span>
+      <p>La réserve en bas des listes était figée à 96 dp. Avec une barre système de 24 dp, 8 dp de la dernière ligne disparaissaient sous le flou. Elle suit maintenant la hauteur réelle de la barre : <code>MediaQuery.paddingOf(context).bottom + 16</code>, soit toujours 96 dp sur un téléphone sans barre système.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Transitions de page <span>2 captures</span></h2>
+    <p class="tight">Chaque page poussée entre en fondu et en léger glissement depuis le bas (3,5 % de la hauteur), sur <strong>220 ms</strong> : la durée maximale fixée au §2.3 du cahier des charges, là où la transition Material par défaut en prendrait 300.</p>
+    <div class="shots">
+      <figure>
+        <div class="phone"><img src="transition_debut.png" alt="Début de transition : l'écran précédent est encore seul à l'écran"></div>
+        <figcaption>
+          <span class="name">transition_debut.png</span>
+          <span class="what">Instant zéro : la page entrante n'est pas encore visible, le fondu démarre seulement à 10 % de la durée.</span>
+        </figcaption>
+      </figure>
+      <figure>
+        <div class="phone"><img src="transition_milieu.png" alt="Milieu de transition : la page entrante est encore translucide par-dessus la précédente"></div>
+        <figcaption>
+          <span class="name">transition_milieu.png</span>
+          <span class="what">60 ms plus tard : la page entrante est posée mais encore largement translucide, l'écran précédent reste lisible au travers.</span>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="finding">
+      <span class="tag">Bug réel corrigé</span>
+      <p>Aucune transition ne jouait, nulle part. <code>go_router</code> 18 ne reconnaît pas le <code>MaterialApp</code> de cette version de Flutter : les routes déclarées avec <code>builder:</code> recevaient une page sans aucune animation, de durée zéro. La transition était donc du code mort, sauf sur les deux écrans déclarés autrement. Les pages passent désormais par <code>koloPage(...)</code>, vérifié route par route.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Écran d'entrée et accueil <span>1 capture</span></h2>
+    <p class="tight">L'écran d'entrée ne contient plus de lien vers la politique de confidentialité. La seule entrée qui reste est <strong>Profil → À propos → Politique de confidentialité</strong>.</p>
+    <div class="shots">
+      <figure>
+        <div class="phone"><img src="bienvenue.png" alt="Écran d'entrée de KOLO avec le logo et les choix de démarrage"></div>
+        <figcaption>
+          <span class="name">bienvenue.png</span>
+          <span class="what">Écran d'entrée : le logo KOLO est bien l'image réelle de l'application, et plus aucun texte de politique sous le bouton.</span>
+        </figcaption>
+      </figure>
+    </div>
+    <p>Sur l'accueil, les blocs apparaissent en cascade au premier affichage : chacun démarre 7 % de la durée après le précédent, sur 420 ms, avec un fondu et un décalage de 14 px. Cette animation n'est pas capturée ici, car l'écran est déjà stabilisé quand le harnais prend la photo. Le réglage système « réduire les animations » la neutralise, comme les transitions de page.</p>
+  </section>
+
+  <footer>
+    <p>Pour refaire ces images après un changement d'interface : <code>flutter test --update-goldens test/preview/apercu.dart</code>. Le fichier ne finit pas par <code>_test.dart</code> : l'intégration continue l'ignore et les 103 tests du projet restent seuls à s'exécuter.</p>
+  </footer>
+</div>

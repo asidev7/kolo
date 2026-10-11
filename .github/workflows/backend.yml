@@ -1,0 +1,67 @@
+name: Backend
+
+on:
+  push:
+    branches: [main]
+    paths: ['backend/**', 'mobile/lib/core/constants/default_categories.dart', '.github/workflows/backend.yml']
+  pull_request:
+    paths: ['backend/**', 'mobile/lib/core/constants/default_categories.dart', '.github/workflows/backend.yml']
+
+concurrency:
+  group: backend-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: kolo
+          POSTGRES_USER: kolo
+          POSTGRES_PASSWORD: kolo
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U kolo" --health-interval 5s
+          --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://kolo:kolo@localhost:5432/kolo
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: backend/requirements*.txt
+
+      - run: pip install -r requirements-dev.txt
+
+      - name: Lint
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Migrations à jour
+        run: python manage.py makemigrations --check --dry-run
+        env:
+          DJANGO_SETTINGS_MODULE: kolo.settings_test
+
+      - name: Configuration de production
+        run: python manage.py check --deploy --fail-level WARNING
+        env:
+          DJANGO_SECRET_KEY: ci-check-deploy-${{ github.run_id }}-0123456789abcdefghijklmnopqrstuvwxyz
+          DJANGO_ALLOWED_HOSTS: api.example.com
+
+      - name: Tests (PostgreSQL 16)
+        run: pytest
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t kolo-api backend

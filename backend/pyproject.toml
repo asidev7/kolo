@@ -1,0 +1,19 @@
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "kolo.settings_test"
+python_files = ["test_*.py"]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["**/migrations/0001_*.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "DJ", "S", "SIM"]
+# DJ001 : `note` et `color` nuls reflètent exactement le schéma du téléphone.
+# DJ008 : pas d'interface d'administration, `__str__` inutile.
+ignore = ["S101", "S105", "S106", "DJ001", "DJ008"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S107", "S311"]
